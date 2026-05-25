@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ms" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran 8 Ilmu API – Demo Al‑Fatihah</title>
+
+    <!-- Font: Arabic & Monospace -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #fdfaf3;
+            --card: #ffffff;
+            --text: #222;
+            --accent: #2c3e50;
+            --border: #ddd;
+            --shadow: 0 2px 8px rgba(0,0,0,0.05);
+            --tajwid: #b34b4b;
+            --makhraj: #2980b9;
+            --sifat: #8e44ad;
+            --arabic-font: 'Scheherazade New', 'Traditional Arabic', serif;
+            --ui-font: 'Courier New', Courier, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            font-family: var(--ui-font);
+            color: var(--text);
+            padding: 1.5rem;
+            direction: rtl;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tabs utama (Ayat) */
+        .ayah-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 1rem 0;
+        }
+
+        .ayah-tab {
+            background: #e0e0e0;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .ayah-tab.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Kandungan ayat */
+        .ayah-content {
+            display: none;
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .ayah-content.active {
+            display: block;
+        }
+
+        .ayah-full {
+            font-family: var(--arabic-font);
+            font-size: 2.5em;
+            margin: 0.5rem 0;
+            color: var(--accent);
+        }
+
+        .translation {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+            padding: 0.8rem;
+            background: #eaf2f8;
+            border-radius: 8px;
+            border-right: 4px solid #3498db;
+        }
+
+        /* Sub‑tab untuk 8 ilmu di dalam ayat */
+        .ilmu-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 1rem 0 0.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .ilmu-tab {
+            background: transparent;
+            border: none;
+            font-weight: bold;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            color: var(--text);
+            transition: 0.2s;
+        }
+
+        .ilmu-tab.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .ilmu-panel {
+            display: none;
+            padding: 0.8rem 0;
+        }
+
+        .ilmu-panel.active {
+            display: block;
+        }
+
+        /* Kalimah group (Tajwid, Makhraj, Sifat) */
+        .kalimah-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 140px;
+            max-width: 180px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box.tajwid-box { border-top: 3px solid var(--tajwid); }
+        .box.makhraj-box { border-top: 3px solid var(--makhraj); }
+        .box.sifat-box  { border-top: 3px solid var(--sifat); }
+
+        .box-title {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+            width: 100%;
+            text-align: center;
+        }
+
+        .tajwid-box .box-title { color: var(--tajwid); }
+        .makhraj-box .box-title { color: var(--makhraj); }
+        .sifat-box .box-title { color: var(--sifat); }
+
+        .box ul {
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-align: right;
+            padding: 0;
+            list-style: inside;
+            width: 100%;
+        }
+
+        .tajwid-box ul { color: var(--tajwid); }
+        .makhraj-box ul { color: var(--makhraj); }
+        .sifat-box ul { color: var(--sifat); }
+
+        .word-arabic {
+            font-family: var(--arabic-font);
+            font-size: 2em;
+            margin: 5px 0;
+        }
+
+        .word-meaning {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #3a7d44;
+        }
+
+        /* Teks biasa untuk ilmu lain */
+        .ilmu-text {
+            text-align: justify;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        .ilmu-list {
+            text-align: right;
+            list-style: none;
+            padding: 0;
+        }
+
+        .ilmu-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: 0.5px solid var(--border);
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📖 Surah Al‑Fatihah – 8 Ilmu</h1>
+    <p class="subtitle">Data dimuat terus dari API Statik Quran 8 Ilmu</p>
+
+    <!-- Tab pilih Ayat -->
+    <div class="ayah-tabs" id="ayahTabs"></div>
+
+    <!-- Kandungan akan dijana oleh JavaScript -->
+    <div id="contentArea"></div>
+
+    <footer>Quran 8 Ilmu API – Sumber terbuka untuk ummah 🌙</footer>
+</div>
+
+<script>
+    (async function() {
+        const API_URL = 'https://raw.githubusercontent.com/pengurusanemediamasjidkampungs-dotcom/quran-8ilmu-api/main/api/v1/surah/1.json';
+
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error('Gagal memuat data surah');
+            const surah = await response.json();
+            renderSurah(surah);
+        } catch (err) {
+            document.getElementById('contentArea').innerHTML = `
+                <div style="color:red; padding:2rem;">
+                    ⚠️ Gagal memuatkan data API.<br>
+                    <small>Pastikan fail <code>1.json</code> tersedia di repositori.</small>
+                </div>`;
+            console.error(err);
+        }
+    })();
+
+    function renderSurah(surah) {
+        const ayahTabsDiv = document.getElementById('ayahTabs');
+        const contentArea = document.getElementById('contentArea');
+
+        // Bina tab untuk setiap ayat
+        surah.ayahs.forEach((ayah, idx) => {
+            const tab = document.createElement('button');
+            tab.className = 'ayah-tab';
+            tab.textContent = `Ayat ${ayah.id}`;
+            tab.dataset.ayah = ayah.id;
+            ayahTabsDiv.appendChild(tab);
+        });
+
+        // Aktifkan ayat pertama
+        const firstTab = ayahTabsDiv.querySelector('.ayah-tab');
+        if (firstTab) firstTab.classList.add('active');
+
+        // Bina kandungan untuk setiap ayat
+        surah.ayahs.forEach(ayah => {
+            const ayahDiv = document.createElement('div');
+            ayahDiv.className = 'ayah-content';
+            ayahDiv.id = `ayah-${ayah.id}`;
+            if (ayah.id === 1) ayahDiv.classList.add('active');
+
+            // Ayat penuh + terjemahan
+            ayahDiv.innerHTML = `
+                <div class="ayah-full">${ayah.arabic_full}</div>
+                <div class="translation">✨ ${ayah.translation_malay}</div>
+            `;
+
+            // Sub‑tab 8 ilmu
+            const ilmuContainer = document.createElement('div');
+            ilmuContainer.innerHTML = `
+                <div class="ilmu-tabs">
+                    <button class="ilmu-tab active" data-ilmu="tajwid">📐 Tajwid</button>
+                    <button class="ilmu-tab" data-ilmu="makhraj">🗣️ Makhraj</button>
+                    <button class="ilmu-tab" data-ilmu="sifat">📝 Sifat</button>
+                    <button class="ilmu-tab" data-ilmu="tarannum">🎵 Tarannum</button>
+                    <button class="ilmu-tab" data-ilmu="fawasil">🔚 Fawasil</button>
+                    <button class="ilmu-tab" data-ilmu="lughah">📚 Lughah</button>
+                    <button class="ilmu-tab" data-ilmu="qiraat">📖 Qiraat</button>
+                    <button class="ilmu-tab" data-ilmu="tafsir">📜 Tafsir</button>
+                </div>
+                <div class="ilmu-panel active" data-panel="tajwid"></div>
+                <div class="ilmu-panel" data-panel="makhraj"></div>
+                <div class="ilmu-panel" data-panel="sifat"></div>
+                <div class="ilmu-panel" data-panel="tarannum"></div>
+                <div class="ilmu-panel" data-panel="fawasil"></div>
+                <div class="ilmu-panel" data-panel="lughah"></div>
+                <div class="ilmu-panel" data-panel="qiraat"></div>
+                <div class="ilmu-panel" data-panel="tafsir"></div>
+            `;
+            ayahDiv.appendChild(ilmuContainer);
+
+            // Isi panel Tajwid, Makhraj, Sifat dengan kalimah
+            const tajwidPanel = ayahDiv.querySelector('[data-panel="tajwid"]');
+            const makhrajPanel = ayahDiv.querySelector('[data-panel="makhraj"]');
+            const sifatPanel = ayahDiv.querySelector('[data-panel="sifat"]');
+
+            ayah.words.forEach(word => {
+                // Bina kumpulan kalimah
+                const group = document.createElement('div');
+                group.className = 'kalimah-group';
+
+                // Tajwid box
+                const tajBox = document.createElement('div');
+                tajBox.className = 'box tajwid-box';
+                tajBox.innerHTML = `<div class="box-title">📐 TAJWID</div><ul>${word.tajwid.rules.map(r => `<li>${r}</li>`).join('')}</ul>`;
+                group.appendChild(tajBox);
+
+                // Makhraj box
+                const makhBox = document.createElement('div');
+                makhBox.className = 'box makhraj-box';
+                makhBox.innerHTML = `<div class="box-title">🗣️ MAKHRAJ</div><ul>${word.makhraj.letters.map(l => `<li><strong>${l.letter}</strong>: ${l.makhraj}</li>`).join('')}</ul>`;
+                group.appendChild(makhBox);
+
+                // Sifat box
+                const sifBox = document.createElement('div');
+                sifBox.className = 'box sifat-box';
+                sifBox.innerHTML = `<div class="box-title">📝 SIFAT</div><ul>${word.sifat.letters.map(l => {
+                    let sifat = `<li><strong>${l.letter}</strong>: ${l.sifat_opposite.join(', ')}`;
+                    if (l.sifat_single && l.sifat_single.length) sifat += `; ${l.sifat_single.join(', ')}`;
+                    sifat += '</li>';
+                    return sifat;
+                }).join('')}</ul>`;
+                group.appendChild(sifBox);
+
+                // Perkataan Arab + makna
+                const wordRow = document.createElement('div');
+                wordRow.style.width = '100%';
+                wordRow.style.textAlign = 'center';
+                wordRow.innerHTML = `<div class="word-arabic">${word.arabic}</div><div class="word-meaning">${word.meaning_malay}</div>`;
+                group.appendChild(wordRow);
+
+                // Klon untuk ketiga‑tiga panel
+                tajwidPanel.appendChild(group.cloneNode(true));
+                makhrajPanel.appendChild(group.cloneNode(true));
+                sifatPanel.appendChild(group.cloneNode(true));
+            });
+
+            // Isi panel Tarannum
+            const tarannumPanel = ayahDiv.querySelector('[data-panel="tarannum"]');
+            if (ayah.tarannum_ayat) {
+                const t = ayah.tarannum_ayat;
+                tarannumPanel.innerHTML = `
+                    <div class="ilmu-text">
+                        <strong>Maqam cadangan:</strong> ${t.maqam_suggestion || '—'}<br>
+                        <strong>Tempo:</strong> ${t.tempo || '—'}<br>
+                        <strong>Nota ringkas:</strong> ${t.note_hints ? t.note_hints.join(' – ') : '—'}
+                    </div>`;
+            } else {
+                tarannumPanel.innerHTML = '<div class="ilmu-text">Tiada data tarannum.</div>';
+            }
+
+            // Isi panel Fawasil
+            const fawasilPanel = ayahDiv.querySelector('[data-panel="fawasil"]');
+            if (ayah.fawasil) {
+                const f = ayah.fawasil;
+                fawasilPanel.innerHTML = `
+                    <ul class="ilmu-list">
+                        <li><strong>Hujung ayat:</strong> ${f.end_word}</li>
+                        <li><strong>Pola rima:</strong> ${f.rhyme_pattern || '—'}</li>
+                        <li><strong>Jenis ayat:</strong> ${f.verse_type || '—'}</li>
+                        <li><strong>Nombor dalam surah:</strong> ${f.number_in_surah}</li>
+                    </ul>`;
+            } else {
+                fawasilPanel.innerHTML = '<div class="ilmu-text">Tiada data fawasil.</div>';
+            }
+
+            // Isi panel Lughah
+            const lughahPanel = ayahDiv.querySelector('[data-panel="lughah"]');
+            if (ayah.lughah) {
+                const l = ayah.lughah;
+                lughahPanel.innerHTML = `
+                    <div class="ilmu-text">
+                        <strong>Nahwu:</strong> ${l.nahwu || '—'}<br><br>
+                        <strong>Sorof:</strong> ${l.sorof || '—'}<br><br>
+                        <strong>Balaghah:</strong> ${l.balaghah || '—'}
+                    </div>`;
+            } else {
+                lughahPanel.innerHTML = '<div class="ilmu-text">Tiada data lughah.</div>';
+            }
+
+            // Isi panel Qiraat
+            const qiraatPanel = ayahDiv.querySelector('[data-panel="qiraat"]');
+            if (ayah.qiraat && ayah.qiraat.length) {
+                let html = '<ul class="ilmu-list">';
+                ayah.qiraat.forEach(q => {
+                    html += `<li><strong>${q.qiraat_name}:</strong> ${q.text}<br><small>${q.notes || ''}</small></li>`;
+                });
+                html += '</ul>';
+                qiraatPanel.innerHTML = html;
+            } else {
+                qiraatPanel.innerHTML = '<div class="ilmu-text">Tiada data qiraat.</div>';
+            }
+
+            // Isi panel Tafsir
+            const tafsirPanel = ayahDiv.querySelector('[data-panel="tafsir"]');
+            tafsirPanel.innerHTML = `<div class="ilmu-text">${ayah.tafsir || 'Tiada tafsir ringkas.'}</div>`;
+
+            contentArea.appendChild(ayahDiv);
+        });
+
+        // Event: pilih ayat
+        const ayahTabs = document.querySelectorAll('.ayah-tab');
+        const ayahContents = document.querySelectorAll('.ayah-content');
+        ayahTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const ayahId = tab.dataset.ayah;
+                ayahTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                ayahContents.forEach(c => c.classList.remove('active'));
+                document.getElementById(`ayah-${ayahId}`).classList.add('active');
+            });
+        });
+
+        // Event: sub‑tab 8 ilmu dalam setiap ayat
+        document.querySelectorAll('.ilmu-tabs').forEach(tabBar => {
+            tabBar.addEventListener('click', (e) => {
+                if (e.target.classList.contains('ilmu-tab')) {
+                    const ilmu = e.target.dataset.ilmu;
+                    const parent = e.target.closest('.ayah-content');
+                    // Nyahaktif semua sub‑tab & panel dalam ayat ini
+                    parent.querySelectorAll('.ilmu-tab').forEach(btn => btn.classList.remove('active'));
+                    parent.querySelectorAll('.ilmu-panel').forEach(p => p.classList.remove('active'));
+                    // Aktifkan yang dipilih
+                    e.target.classList.add('active');
+                    const panel = parent.querySelector(`[data-panel="${ilmu}"]`);
+                    if (panel) panel.classList.add('active');
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>
