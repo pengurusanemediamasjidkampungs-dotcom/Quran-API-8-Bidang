@@ -37,8 +37,14 @@ Setiap surah diwakili dalam satu fail JSON yang menggabungkan **8 cabang ilmu Al
 
 ## 🗂 Struktur API
 
+Data boleh dicapai melalui GitHub Pages atau `raw.githubusercontent.com`:
+
 ```
+# Versi mentah (JSON)
 https://raw.githubusercontent.com/pengurusanemediamasjidkampungs-dotcom/quran-8ilmu-api/main/api/v1/surah/1.json
+
+# Melalui GitHub Pages (web demo)
+https://pengurusanemediamasjidkampungs-dotcom.github.io/quran-8ilmu-api/
 ```
 
 Setiap fail JSON mengikut skema yang didokumenkan sepenuhnya dalam [API_SPEC.md](docs/API_SPEC.md).
@@ -67,10 +73,11 @@ quran-8ilmu-api/
 │   ├── validator.js               # Skrip sahkan JSON ikut skema
 │   └── generator.html             # Alat bina JSON secara GUI
 ├── examples/
-│   ├── web-demo/                  # Demo laman web guna API
-│   │   ├── index.html
-│   │   └── style.css
-│   └── mobile-demo/               # Contoh guna di Flutter
+│   └── web-demo/                  # Demo laman web interaktif
+│       ├── index.html             # Antara muka utama
+│       ├── style.css              # Gaya responsif + 3 tema
+│       └── script.js              # Logik tema, tab, dan pemuatan API
+├── index.html                     # Alihan automatik ke demo (GitHub Pages)
 ├── LICENSE.txt
 ├── .gitignore
 └── README.md
@@ -80,13 +87,23 @@ quran-8ilmu-api/
 
 ## 🚀 Panduan Pantas
 
-### Dapatkan Surah Al-Fatihah
+### Lihat Demo Langsung
+
+1. **Buka GitHub Pages:**  
+   [https://pengurusanemediamasjidkampungs-dotcom.github.io/quran-8ilmu-api/](https://pengurusanemediamasjidkampungs-dotcom.github.io/quran-8ilmu-api/)  
+   (Pastikan tetapan GitHub Pages diarahkan ke branch `main` dan folder root `/ (root)`).
+
+2. **Navigasi:**  
+   - Tab **Ayat 1–7** di bahagian atas.  
+   - Sub‑tab **8 ilmu** di bawah setiap ayat.
+
+### Guna API dalam Kod
 
 ```javascript
 fetch('https://raw.githubusercontent.com/pengurusanemediamasjidkampungs-dotcom/quran-8ilmu-api/main/api/v1/surah/1.json')
   .then(res => res.json())
   .then(data => {
-    console.log(data.ayahs[0].words[0].tajwid);   // Hukum tajwid kalimah pertama
+    console.log(data.ayahs[0].words[0].tajwid);   // Hukum tajwid
     console.log(data.ayahs[0].lughah.nahwu);       // Analisis nahwu
     console.log(data.ayahs[0].qiraat);             // Variasi qiraat
   });
@@ -164,3 +181,5 @@ Projek ini dilesenkan di bawah [Lesen MIT](LICENSE.txt). Anda bebas menggunakan,
   🌙 Semoga menjadi amal jariah.
 </p>
 ```
+
+---
