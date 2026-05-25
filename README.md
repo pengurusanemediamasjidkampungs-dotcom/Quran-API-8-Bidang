@@ -1,6 +1,3 @@
-### README.md (Profesional, Bahasa Melayu)
-
-```markdown
 <p align="center">
   <img src="https://img.shields.io/badge/versi-1.0-blue?style=for-the-badge" alt="Versi 1.0">
   <img src="https://img.shields.io/badge/lesen-MIT-green?style=for-the-badge" alt="Lesen MIT">
@@ -48,35 +45,32 @@ Setiap fail JSON mengikut skema yang didokumenkan sepenuhnya dalam [API_SPEC.md]
 
 ---
 
-### Struktur Repositori Baharu
+## 📁 Struktur Repositori
 
 ```
 quran-8ilmu-api/
 ├── api/
 │   └── v1/
 │       ├── surah/
-│       │   ├── 1.json         # Al-Fatihah (lengkap 8 ilmu)
-│       │   ├── 2.json         # Al-Baqarah (akan datang)
+│       │   ├── 1.json             # Al-Fatihah (lengkap 8 ilmu)
 │       │   └── ...
 │       ├── juzuk/
-│       │   ├── 30.json
 │       │   └── ...
-│       ├── index.json         # Metadata semua surah
-│       └── 8ilmu-schema.json  # Skema rujukan
+│       ├── index.json             # Metadata semua surah
+│       └── 8ilmu-schema.json      # Skema rujukan JSON
 ├── docs/
-│   ├── README.md              # Dokumentasi utama (dwibahasa)
-│   ├── API_SPEC.md            # Spesifikasi teknikal API
-│   ├── ILMU.md                # Huraian 8 ilmu
-│   ├── CONTRIBUTING.md        # Panduan menyumbang
-│   └── TUTORIAL.md            # Tutorial guna API
+│   ├── API_SPEC.md                # Spesifikasi teknikal API
+│   ├── ILMU.md                    # Huraian 8 ilmu
+│   ├── CONTRIBUTING.md            # Panduan menyumbang
+│   └── TUTORIAL.md                # Tutorial guna API
 ├── tools/
-│   ├── validator.js           # Skrip sahkan JSON ikut skema
-│   └── generator.html         # Alat bina JSON secara GUI
+│   ├── validator.js               # Skrip sahkan JSON ikut skema
+│   └── generator.html             # Alat bina JSON secara GUI
 ├── examples/
-│   ├── web-demo/              # Demo laman web guna API
+│   ├── web-demo/                  # Demo laman web guna API
 │   │   ├── index.html
 │   │   └── style.css
-│   └── mobile-demo/           # Contoh guna di Flutter
+│   └── mobile-demo/               # Contoh guna di Flutter
 ├── LICENSE.txt
 ├── .gitignore
 └── README.md
@@ -89,12 +83,12 @@ quran-8ilmu-api/
 ### Dapatkan Surah Al-Fatihah
 
 ```javascript
-fetch('https://raw.githubusercontent.com/.../1.json')
+fetch('https://raw.githubusercontent.com/pengurusanemediamasjidkampungs-dotcom/quran-8ilmu-api/main/api/v1/surah/1.json')
   .then(res => res.json())
   .then(data => {
-    console.log(data.ayahs[0].words[0].tajwid); // Hukum tajwid kalimah pertama
-    console.log(data.ayahs[0].lughah.nahwu);     // Analisis nahwu
-    console.log(data.ayahs[0].qiraat);           // Variasi qiraat
+    console.log(data.ayahs[0].words[0].tajwid);   // Hukum tajwid kalimah pertama
+    console.log(data.ayahs[0].lughah.nahwu);       // Analisis nahwu
+    console.log(data.ayahs[0].qiraat);             // Variasi qiraat
   });
 ```
 
@@ -159,25 +153,14 @@ Lihat [CONTRIBUTING.md](docs/CONTRIBUTING.md) untuk panduan penuh.
 
 ## 📜 Lesen
 
-Projek ini dilesenkan di bawah [Lesen MIT](LICENSE). Anda bebas menggunakan, mengubah suai, dan mengedarkan data ini untuk sebarang tujuan, termasuk komersial.
+Projek ini dilesenkan di bawah [Lesen MIT](LICENSE.txt). Anda bebas menggunakan, mengubah suai, dan mengedarkan data ini untuk sebarang tujuan, termasuk komersial.
 
 ---
 
 <p align="center">
-  <strong>“Sebaik-baik kalian adalah yang mempelajari Al-Quran dan mengajarkannya.”</strong><br>
+  <strong>"Sebaik-baik kalian adalah yang mempelajari Al-Quran dan mengajarkannya."</strong><br>
   – Hadis Riwayat Al-Bukhari<br><br>
   Dibina dengan ❤️ untuk ummah.<br>
   🌙 Semoga menjadi amal jariah.
 </p>
 ```
-
----
-
-### Langkah Seterusnya
-
-1. **Buat repo baharu** di GitHub: `quran-8ilmu-api`.
-2. **Salin fail `1.json`** (yang sedang kita bina) ke dalam `api/v1/surah/`.
-3. **Kemas kini `API_SPEC.md`** dengan skema 8 ilmu.
-4. **Promosikan** di kalangan pembangun dan pendidik Al-Quran.
-
-Adakah anda mahu saya sediakan skema JSON lengkap (`8ilmu-schema.json`) atau fail `1.json` yang siap dengan data semua 8 ilmu untuk Ayat 1? 😊
