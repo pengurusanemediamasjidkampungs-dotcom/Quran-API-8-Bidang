@@ -1,0 +1,435 @@
+/* ============================================================
+   Quran 8 Ilmu API – Gaya Asas (style.css)
+   Menyokong 3 tema: Light (default), Dark, Coffee
+   Layout: RTL, Flexbox, Mobile‑first
+   ============================================================ */
+
+/* ---------- CSS Custom Properties (Tema) ---------- */
+:root {
+    --bg: #fdfaf3;
+    --bg-card: #ffffff;
+    --text: #1e1e1e;
+    --text-secondary: #555;
+    --accent: #2c3e50;
+    --accent-light: #eaf2f8;
+    --border: #ddd;
+    --shadow: 0 2px 8px rgba(0,0,0,0.05);
+    --tajwid: #b34b4b;
+    --makhraj: #2980b9;
+    --sifat: #8e44ad;
+    --makna: #3a7d44;
+    --tab-bg: #e0e0e0;
+    --tab-active-bg: #2c3e50;
+    --tab-active-text: #ffffff;
+    --ilmu-tab-active-bg: #2c3e50;
+    --ilmu-tab-active-text: #ffffff;
+    --arabic-font: 'Scheherazade New', 'Traditional Arabic', serif;
+    --ui-font: 'Courier New', Courier, monospace;
+}
+
+/* Tema Gelap */
+body.dark {
+    --bg: #1e1e1e;
+    --bg-card: #2a2a2a;
+    --text: #e0e0e0;
+    --text-secondary: #aaa;
+    --accent: #a0c4ff;
+    --accent-light: #1e2a3a;
+    --border: #444;
+    --shadow: 0 2px 8px rgba(255,255,255,0.05);
+    --tajwid: #ff8c8c;
+    --makhraj: #5dade2;
+    --sifat: #c39bd3;
+    --makna: #7ed687;
+    --tab-bg: #3a3a3a;
+    --tab-active-bg: #a0c4ff;
+    --tab-active-text: #1e1e1e;
+    --ilmu-tab-active-bg: #a0c4ff;
+    --ilmu-tab-active-text: #1e1e1e;
+}
+
+/* Tema Kopi (Beige Coffee) */
+body.coffee {
+    --bg: #f5efe0;
+    --bg-card: #fff8f0;
+    --text: #4a3728;
+    --text-secondary: #6b5544;
+    --accent: #6f4e37;
+    --accent-light: #f0e5d8;
+    --border: #c2a381;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --tajwid: #9c4f4f;
+    --makhraj: #3a6b8c;
+    --sifat: #7b4f8a;
+    --makna: #4a7c52;
+    --tab-bg: #e7d7c1;
+    --tab-active-bg: #6f4e37;
+    --tab-active-text: #fff8f0;
+    --ilmu-tab-active-bg: #6f4e37;
+    --ilmu-tab-active-text: #fff8f0;
+}
+
+/* ---------- Reset & Asas ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--ui-font);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    direction: rtl;
+    text-align: center;
+    padding: 1.5rem;
+    min-height: 100vh;
+}
+
+/* ---------- Header & Tajuk ---------- */
+h1 {
+    font-family: var(--ui-font);
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-family: var(--ui-font);
+}
+
+/* ---------- Petunjuk Warna (Legend) ---------- */
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.8rem;
+    font-family: var(--ui-font);
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+/* ---------- Butang Tema ---------- */
+.theme-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    direction: ltr;
+}
+
+.theme-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    font-size: 1.3rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+    color: var(--text);
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ---------- Tab Ayat ---------- */
+.ayah-tabs,
+.tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1rem 0;
+}
+
+.ayah-tab,
+.tab-btn {
+    background: var(--tab-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--ui-font);
+    transition: background 0.2s, color 0.2s;
+}
+
+.ayah-tab.active,
+.tab-btn.active {
+    background: var(--tab-active-bg);
+    color: var(--tab-active-text);
+}
+
+/* ---------- Sub‑tab 8 Ilmu ---------- */
+.ilmu-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 1rem 0 0.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.ilmu-tab {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: var(--ui-font);
+    border-radius: 4px;
+    color: var(--text);
+    transition: background 0.2s, color 0.2s;
+}
+
+.ilmu-tab.active {
+    background: var(--ilmu-tab-active-bg);
+    color: var(--ilmu-tab-active-text);
+}
+
+/* ---------- Kandungan Utama ---------- */
+.content-area {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.ayat-content {
+    display: none;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    transition: background 0.3s;
+}
+
+.ayat-content.active {
+    display: block;
+}
+
+/* ---------- Ayat Penuh (Arabic) ---------- */
+.ayat-penuh,
+.ayah-full {
+    font-family: var(--arabic-font);
+    font-size: 2.8em;
+    margin: 0.5rem 0 1rem;
+    color: var(--accent);
+    direction: rtl;
+    line-height: 1.8;
+}
+
+/* ---------- Terjemahan ---------- */
+.terjemahan-penuh,
+.translation {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin: 1rem 0;
+    padding: 0.8rem 1.2rem;
+    background: var(--accent-light);
+    border-radius: 8px;
+    border-right: 4px solid var(--accent);
+    font-family: var(--ui-font);
+}
+
+/* ---------- Panel Ilmu ---------- */
+.ilmu-panel {
+    display: none;
+    padding: 0.8rem 0;
+}
+
+.ilmu-panel.active {
+    display: block;
+}
+
+/* ---------- Kumpulan Kalimah ---------- */
+.kalimah-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 12px 0;
+    direction: rtl;
+}
+
+/* ---------- Kotak Analisis ---------- */
+.kalimah-box,
+.makhraj-box,
+.sifat-box,
+.box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    min-width: 140px;
+    max-width: 180px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Warna sempadan atas mengikut jenis */
+.kalimah-box,
+.box.tajwid-box {
+    border-top: 3px solid var(--tajwid);
+}
+
+.makhraj-box,
+.box.makhraj-box {
+    border-top: 3px solid var(--makhraj);
+}
+
+.sifat-box,
+.box.sifat-box {
+    border-top: 3px solid var(--sifat);
+}
+
+/* Tajuk kotak */
+.box-title {
+    font-size: 0.7em;
+    font-weight: bold;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+    width: 100%;
+    text-align: center;
+    font-family: var(--ui-font);
+}
+
+.kalimah-box .box-title,
+.box.tajwid-box .box-title {
+    color: var(--tajwid);
+}
+
+.makhraj-box .box-title,
+.box.makhraj-box .box-title {
+    color: var(--makhraj);
+}
+
+.sifat-box .box-title,
+.box.sifat-box .box-title {
+    color: var(--sifat);
+}
+
+/* Senarai dalam kotak */
+.tajwid,
+.makhraj,
+.sifat,
+.box ul {
+    font-size: 0.7em;
+    font-weight: bold;
+    text-align: right;
+    list-style-position: inside;
+    padding: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.tajwid li,
+.makhraj li,
+.sifat li,
+.box ul li {
+    margin: 2px 0;
+    line-height: 1.4;
+}
+
+.tajwid,
+.box.tajwid-box ul {
+    color: var(--tajwid);
+}
+
+.makhraj,
+.box.makhraj-box ul {
+    color: var(--makhraj);
+}
+
+.sifat,
+.box.sifat-box ul {
+    color: var(--sifat);
+}
+
+/* ---------- Perkataan Arab & Makna ---------- */
+.arab-kalimah,
+.word-arabic {
+    font-family: var(--arabic-font);
+    font-size: 2.2em;
+    margin: 5px 0;
+    color: var(--accent);
+}
+
+.makna,
+.word-meaning {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--makna);
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* ---------- Teks Ilmu Lain ---------- */
+.ilmu-text {
+    text-align: justify;
+    line-height: 1.8;
+    font-size: 0.9rem;
+    font-family: var(--ui-font);
+}
+
+.ilmu-list {
+    text-align: right;
+    list-style: none;
+    padding: 0;
+    font-family: var(--ui-font);
+}
+
+.ilmu-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* ---------- Garis Pemisah ---------- */
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+}
+
+/* ---------- Nota Kaki ---------- */
+.footnote {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-family: var(--ui-font);
+}
+
+/* ---------- Footer ---------- */
+footer {
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: var(--ui-font);
+}
